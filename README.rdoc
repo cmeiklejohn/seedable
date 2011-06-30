@@ -1,0 +1,99 @@
+= Seedable
+
+Data import and export for rails, to assist in seeding development
+databases from production.
+
+== What is Seedable?
+
+Seedable is a mixin to select groups of objects, and export them via
+serialized JSON, to be reimported later.  The goal, is less to maintain
+a consistent database state, but for quick dumping and restoring of data
+between environments, to seed your database.
+
+== Usage
+
+Using Seedable is easy!
+
+=== How do I include it?
+
+Add the gem.
+
+    gem 'seedable'
+
+In the models you want to export together, place the following:
+
+    acts_as_seedable 
+
+=== Exporting records
+
+To export, call:
+
+    json = @garage.to_seedable
+
+By default, seedable will traverse all active\_record associations and
+export all of their attributes.  To exclude associations, do the following:
+
+    acts_as_seedable :include_associations => [:cars, :bikes]
+
+You can also call it after the fact:
+
+    Garage.include_associations([:cars])
+
+To filter attributes:
+
+    acts_as_seedable :filter_attributes => [:id]
+
+You can also call it after the fact:
+
+    Garage.filter_attributes([:id])
+
+You can also export an array of disperse object types:
+
+    [@garage, @car, @garage2, @bike].to_seedable
+
+=== Importing records
+
+To import:
+
+    Garage.from_seedable(json)
+
+or, if you have JSON from a unknown object type and want it to return
+the proper object type:
+
+    Seedable.from_seedable(garage_json) # Returns Garage object.
+
+or, an array of different object types:
+
+    json = [@garage, @car, @garage2, @bike].to_seedable
+    Seedable.from_seedable(json) # Returns array of [Garage, Car, Garage, Bike]
+
+=== Preventing a record from being deserialized twice
+
+To prevent:
+
+    Driver.prevent_duplicate_records(true)
+
+or:
+
+    acts_as_seedable :prevent_duplicate_records => true
+
+== Caveats
+
+This is the first release, and yes, there are a bunch of caveats.
+
+=== Compatibility
+
+1. This gem has been tested with Rails 3.0.9, Rails 3.1.0rc4 and Rails
+   master.  See Appraisals for more information.  The default rake will
+   run the test suite in all three of these scenarios.
+2. This gem has only been tested with Ruby 1.9.2 and Rubinius 2.0.0pre.
+
+=== Exporting with primary keys
+
+1. The same record can not be present in the output more than once, or
+   it won't be able to be imported.  (Duplicate key constraint
+   violation.)  I'm hoping that a open pull request on rails master will
+   help solve this issue.
+2. Importing objects with associated objects by primary key will only
+   work on rails master.  This is because the code relies on mass
+   assignment changes/abstractions destined for rails-3.2.x.
