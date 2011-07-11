@@ -75,7 +75,12 @@ describe Garage do
     end
 
     # TODO: Marked pending since this behavior fails in rails 3.0, but
-    # works in rails 3.2.
+    # works in rails 3.2.  
+    #
+    # For this to work, mass assignment protection
+    # changes from rails-3.2 are necessary since they'll alow you to
+    # bypass protection on all associated objects and set primary key
+    # values on the associated objects.
     #
     pending "should export and import the records correctly with ids"
   end
@@ -145,16 +150,8 @@ describe Garage do
       Garage.include_associations([:cars])
     end
 
-    # TODO: Not possible yet.  Maybe soon.
-    #
-    pending "should import correctly if driver is presented in the export file twice" 
-
     it "should import and export only one driver correctly" do 
-      Driver.prevent_duplicate_records(true)
       @garage.as_seedable.should == {"garage"=>{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "name"=>"Chris", :cars=>[{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "model"=>"Impreza", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010", "garage_id"=>1, :drivers=>[{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "car_id"=>2, "name"=>"Chris", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010"}], "make"=>"Subaru"}, {"id"=>2, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "model"=>"Impreza", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010", "garage_id"=>1, :drivers=>[{}], "make"=>"Subaru"}], "created_at"=>"Fri Jan 01 00:00:00 -0500 2010"}}
-
-      Driver.prevent_duplicate_records(false)
-      @garage.as_seedable.should == {"garage"=>{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "name"=>"Chris", :cars=>[{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "model"=>"Impreza", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010", "garage_id"=>1, :drivers=>[{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "car_id"=>2, "name"=>"Chris", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010"}], "make"=>"Subaru"}, {"id"=>2, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "model"=>"Impreza", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010", "garage_id"=>1, :drivers=>[{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "car_id"=>2, "name"=>"Chris", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010"}], "make"=>"Subaru"}], "created_at"=>"Fri Jan 01 00:00:00 -0500 2010"}}
     end
   end
     

@@ -3,12 +3,6 @@
 module Seedable # :nodoc:
   module Helpers # :nodoc:
 
-    # Create a new instance of the object tracker.
-    #
-    def self.create_new_object_tracker
-      @@object_tracker = ObjectTracker.new
-    end
-
     # Convert a string or symbol to a class in the object space.
     #
     def self.to_class(string)

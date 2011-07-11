@@ -28,11 +28,13 @@ module Seedable # :nodoc:
       def from_seedable(json)
         objects = Helpers.parse_seedable(json)
 
-        objects.is_a?(Array) ?
+        if Array === objects
           objects.map do |object| 
             objects_from_serialized_hash(object)
-          end :
+          end
+        else
           objects_from_serialized_hash(objects)
+        end
       end
 
       # Convert a hash's root node to a class, and return the remainder

@@ -27,43 +27,35 @@ module Seedable # :nodoc:
       extend ActiveSupport::Concern
 
       included do
-        alias_method_chain :as_json, :object_tracker
         alias_method_chain :serializable_hash, :object_tracker
       end
 
-      # :nodoc: 
+      # Use thread-local storage to carry the object tracker through the
+      # association traversal.
       #
-      # @@object_tracker 
-      #
-      # Can't use dependency injection here, as serializable_add_include
-      # doesn't carry down the options throughout associations for
-      # security.
-      # 
-      # TODO: Refactor when we've found a better way.
-      #
-
       module InstanceMethods # :nodoc:
-
-        # Extend as_json by creating a new instance of the object
-        # tracker.
-        #
-        def as_json_with_object_tracker(options = {})
-          @@object_tracker = ObjectTracker.new
-          as_json_without_object_tracker(options)
-        end
 
         # Extend serializable_hash functionality by calling out to the
         # object tracker.
         #
-        def serializable_hash_with_object_tracker(options = {}) 
-          if self.class.prevent_duplicate_records? && @@object_tracker.contains?(self)
-            {}
-          else
-            @@object_tracker.add(self)
-            serializable_hash_without_object_tracker(options)
+        def serializable_hash_with_object_tracker(options = {})
+          unless object_tracker = Thread.current[:object_tracker]
+            object_tracker                  = ObjectTracker.new
+            clean_up                        = true
+            Thread.current[:object_tracker] = object_tracker
           end
-        end
 
+          if object_tracker.contains?(self)
+            return_value = {}
+          else
+            object_tracker.add(self)
+            return_value = serializable_hash_without_object_tracker(options)
+          end
+         
+          Thread.current[:object_tracker] = nil if clean_up
+
+          return_value
+        end
       end
     end
   end

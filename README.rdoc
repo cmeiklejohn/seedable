@@ -67,16 +67,6 @@ or, an array of different object types:
     json = [@garage, @car, @garage2, @bike].to_seedable
     Seedable.from_seedable(json) # Returns array of [Garage, Car, Garage, Bike]
 
-=== Preventing a record from being deserialized twice
-
-To prevent:
-
-    Driver.prevent_duplicate_records(true)
-
-or:
-
-    acts_as_seedable :prevent_duplicate_records => true
-
 == Caveats
 
 This is the first release, and yes, there are a bunch of caveats.
@@ -90,10 +80,6 @@ This is the first release, and yes, there are a bunch of caveats.
 
 === Exporting with primary keys
 
-1. The same record can not be present in the output more than once, or
-   it won't be able to be imported.  (Duplicate key constraint
-   violation.)  I'm hoping that a open pull request on rails master will
-   help solve this issue.
-2. Importing objects with associated objects by primary key will only
+1. Importing objects with associated objects by primary key will only
    work on rails master.  This is because the code relies on mass
    assignment changes/abstractions destined for rails-3.2.x.

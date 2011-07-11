@@ -25,7 +25,6 @@ module Seedable # :nodoc:
       #
       # * +filter_attributes+ - Attributes to filter from the export.
       # * +include_associations+ - Associations that should be traversed during export.
-      # * +prevent_duplicate_records+ - Prevents records from being deserialized twice in the output.
       #
       # ==== Examples
       #
@@ -36,40 +35,15 @@ module Seedable # :nodoc:
       def acts_as_seedable(options = {})
         cattr_accessor :filterable_attributes
         cattr_accessor :includable_associations
-        cattr_accessor :duplicate_record_protection
 
         if options[:filter_attributes]
           self.send(:filter_attributes, options.delete(:filter_attributes))
-        end
-
-        if options[:prevent_duplicate_records] 
-          self.send(:prevent_duplicate_records, options.delete(:prevent_duplicate_records))
-        else
-          self.send(:prevent_duplicate_records, false)
         end
 
         if options[:include_associations]
           self.send(:include_associations, options.delete(:include_associations))
         else
           self.send(:include_associations, Helpers.associations_for(self))
-        end
-      end
-
-      # Sets if this class should return records multiple twice when
-      # performing serialization.
-      #
-      def prevent_duplicate_records(value)
-        self.send(:duplicate_record_protection=, value)
-      end
-
-      # Returns if duplicate record serialization prevention is enabled
-      # or not.
-      #
-      def prevent_duplicate_records?
-        if self.respond_to?(:duplicate_record_protection) 
-          !!self.send(:duplicate_record_protection)
-        else
-          false
         end
       end
 
