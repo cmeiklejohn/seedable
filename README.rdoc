@@ -89,5 +89,3 @@ This is the first release, and yes, there are a bunch of caveats.
 1. Ability to setup multiple export templates in a configuration file.  [joshuanapoli] 
 2. Prevent loading of the accepts_nested_attributes_for call in the
    production environment. [cmeiklejohn]
-3. Alias the as_json method so if it's overloaded we can still hit the
-   original. [cmeiklejohn]
