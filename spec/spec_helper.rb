@@ -29,7 +29,6 @@ ActiveRecord::Base.silence do
 end
 
 RSpec.configure do |config|
-  config.mock_with :mocha
   config.use_transactional_fixtures = true
   config.backtrace_clean_patterns << %r{gems/}
 end
