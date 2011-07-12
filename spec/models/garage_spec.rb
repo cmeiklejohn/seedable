@@ -33,6 +33,19 @@ describe Garage do
     end
   end
 
+  describe "with a bike" do 
+    before(:each) do 
+      @bike = Factory.create(:bike)
+      @garage.bikes << @bike
+
+      Garage.include_associations([:bikes])
+    end
+
+    it "should not traverse to bike when exporting since it is not seedable" do 
+      @garage.as_seedable.should == {"garage"=>{"id"=>1, "updated_at"=>"Fri Jan 01 00:00:00 -0500 2010", "name"=>"Chris", "created_at"=>"Fri Jan 01 00:00:00 -0500 2010"}}
+    end
+  end
+
   describe "with one car" do
     before(:each) do 
       @car = Factory.create(:car)
@@ -180,4 +193,5 @@ describe Garage do
       @garages.to_seedable.should == @json
     end
   end
+
 end

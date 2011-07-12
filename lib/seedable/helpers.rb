@@ -37,7 +37,8 @@ module Seedable # :nodoc:
     def self.traverse_includable_associations(klass, ancestor_klass)
       if klass.respond_to?(:includable_associations) 
         klass.includable_associations.inject({}) do |associations, association|
-          unless Helpers.to_class(association) == ancestor_klass
+          descendent_klass = Helpers.to_class(association)
+          unless descendent_klass == ancestor_klass || !descendent_klass.seedable?
             associations[association] = { 
               :include => traverse_includable_associations(Helpers.to_class(association), klass),
               :except  => filterable_attributes(Helpers.to_class(association))

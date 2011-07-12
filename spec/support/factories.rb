@@ -10,6 +10,9 @@ Factory.define :filtered_garage do |garage|
   garage.name "Chris"
 end
 
+Factory.define :bike do |bike|
+end
+
 Factory.define :car do |car|
   car.make "Subaru"
   car.model "Impreza"

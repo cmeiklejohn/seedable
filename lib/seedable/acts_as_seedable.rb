@@ -47,6 +47,12 @@ module Seedable # :nodoc:
         end
       end
 
+      # Return seedable status
+      #
+      def seedable?
+        self.respond_to?(:filterable_attributes) && self.respond_to?(:includable_associations)
+      end
+
       # Sets which attributes should be fitlered from the
       # serialization of this object.
       #
