@@ -84,8 +84,10 @@ module Seedable # :nodoc:
       def include_associations(associations)
         self.send(:includable_associations=, associations)
 
-        associations.each do |association|
-          self.accepts_nested_attributes_for association
+        unless Rails.env.production?
+          associations.each do |association|
+            self.accepts_nested_attributes_for association
+          end
         end
       end
 
