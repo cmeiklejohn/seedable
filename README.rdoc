@@ -77,10 +77,8 @@ This is the first release, and yes, there are a bunch of caveats.
 
 === Compatibility
 
-1. This gem has been tested with Rails 3.0.9, Rails 3.1.0rc4 and Rails
-   master.  See Appraisals for more information.  The default rake will
-   run the test suite in all three of these scenarios.
-2. This gem has only been tested with Ruby 1.9.2 and Rubinius 2.0.0pre.
+1. Compatible and tested under rails 3.1 and rails-master.
+2. Compatible and tested under ruby 1.9.2.
 
 === Exporting with primary keys
 
