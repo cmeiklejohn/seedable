@@ -5,27 +5,34 @@ ENV["RAILS_ENV"] ||= "test"
 PROJECT_ROOT = File.expand_path("../..", __FILE__)
 $LOAD_PATH << File.join(PROJECT_ROOT, "lib")
 
-require 'simplecov'
-SimpleCov.start
-
 require 'rails/all'
+require 'rails/test_help'
 Bundler.require
 
-require 'rails/test_help'
+require 'diesel/testing'
 require 'rspec/rails'
+
 require 'factory_girl_rails'
 require 'timecop'
 
-ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + '/debug.log')
-ActiveRecord::Base.configurations = YAML::load_file(File.dirname(__FILE__) + '/database.yml')
-ActiveRecord::Base.establish_connection(ENV['DB'])
+require 'seedable'
+
+if RUBY_VERSION > "1.9"
+  require 'simplecov'
+  SimpleCov.start
+end
+
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+ActiveRecord::Base.establish_connection(
+  :adapter => "sqlite3", 
+  :database => ":memory:"
+)
 
 ActiveRecord::Base.silence do
   ActiveRecord::Migration.verbose = false
- 
+
   load(File.dirname(__FILE__) + '/../db/schema.rb')
-  load(File.dirname(__FILE__) + '/support/models.rb')
-  load(File.dirname(__FILE__) + '/support/factories.rb')
 end
 
 RSpec.configure do |config|

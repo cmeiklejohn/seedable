@@ -84,8 +84,10 @@ This is the first release, and yes, there are a bunch of caveats.
    work on rails master.  This is because the code relies on mass
    assignment changes/abstractions destined for rails-3.2.x.
 
-== TODO
+== License
 
-1. Ability to setup multiple export templates in a configuration file.  [joshuanapoli] 
-2. Prevent loading of the accepts_nested_attributes_for call in the
-   production environment. [cmeiklejohn]
+Seedable is Copyright © 2011 Christopher Meiklejohn.  It is free software, and may be redistributed under the terms specified in the LICENSE file.
+
+== About
+
+The seedable gem was written by {Christopher Meiklejohn}[mailto:cmeiklejohn@swipely.com] from {Swipely, Inc.}[http://www.swipely.com].
