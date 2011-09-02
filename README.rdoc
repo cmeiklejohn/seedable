@@ -20,9 +20,13 @@ Add the gem.
 
     gem 'seedable'
 
+Include the module:
+
+    include Seedable
+
 In the models you want to export together, place the following:
 
-    acts_as_seedable 
+    seedable
 
 === Exporting records
 
@@ -33,7 +37,7 @@ To export, call:
 By default, seedable will traverse all active\_record associations and
 export all of their attributes.  To exclude associations, do the following:
 
-    acts_as_seedable :include_associations => [:cars, :bikes]
+    seedable :include_associations => [:cars, :bikes]
 
 You can also call it after the fact:
 
@@ -41,7 +45,7 @@ You can also call it after the fact:
 
 To filter attributes:
 
-    acts_as_seedable :filter_attributes => [:id]
+    seedable :filter_attributes => [:id]
 
 You can also call it after the fact:
 
