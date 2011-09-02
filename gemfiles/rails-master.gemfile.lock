@@ -50,7 +50,7 @@ GIT
 PATH
   remote: /home/cmeiklejohn/Repositories/seedable
   specs:
-    seedable (0.0.1.rc1)
+    seedable (0.0.1)
       rails (>= 3.1.0)
 
 GEM

@@ -1,12 +1,8 @@
 # encoding: UTF-8
 
 module Seedable # :nodoc:
-  module ActsAsSeedable # :nodoc:
+  module Exporter # :nodoc:
     extend ActiveSupport::Concern
-
-    included do 
-      include Seedable::Base
-    end
 
     # Extensions to all ActiveRecord classes to enable this class for
     # import and export of data.
@@ -32,7 +28,7 @@ module Seedable # :nodoc:
       #     acts_as_seedable :include_associations => [:cars]
       #   end
       #
-      def acts_as_seedable(options = {})
+      def seedable(options = {})
         cattr_accessor :filterable_attributes
         cattr_accessor :includable_associations
 
@@ -165,5 +161,3 @@ module Seedable # :nodoc:
     end
   end
 end
-
-ActiveRecord::Base.send :include, Seedable::ActsAsSeedable

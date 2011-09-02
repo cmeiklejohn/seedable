@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 module Seedable # :nodoc:
-  module Base # :nodoc: 
+  module Importer # :nodoc: 
     extend ActiveSupport::Concern
 
     # Seedable methods for loading serialized objects of unknown or
