@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency('rails', '> 3.0.0')
+  s.add_dependency('rails', '>= 3.1.0')
 
   s.add_development_dependency('bundler', '~> 1.0.0')
   s.add_development_dependency('rspec') 
@@ -33,4 +33,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency('timecop')
   s.add_development_dependency('horo') 
   s.add_development_dependency('simplecov') 
+  s.add_development_dependency('diesel') 
+  s.add_development_dependency('guard') 
+  s.add_development_dependency('guard-rspec')
+
+  if RUBY_PLATFORM =~ /linux/i
+    s.add_development_dependency('rb-inotify')
+    s.add_development_dependency('libnotify')
+  end
 end
