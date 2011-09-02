@@ -5,7 +5,6 @@ Gemfile.lock
 pkg/*
 db/*.sqlite3
 spec/*.log
-gemfiles
 *.rbc
 html
 coverage
