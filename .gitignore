@@ -1,7 +1,6 @@
 tmp
 *.gem
 .bundle
-Gemfile.lock
 pkg/*
 db/*.sqlite3
 spec/*.log
